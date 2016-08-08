@@ -6,12 +6,12 @@ Gem::Specification.new do |s|
   s.description = "A simple hello world gem"
   s.authors     = ["Nick Quaranto"]
   s.email       = 'nick@quaran.to'
-  s.files       = ["lib/hola.rb"]
+  s.files       = Dir['lib/*.rb']
   s.homepage    =
     'http://rubygems.org/gems/hola'
   s.license       = 'MIT'
   s.add_development_dependency 'rspec', '~> 3.5'
-  s.add_development_dependency 'webmock'
-  s.add_runtime_dependency 'optimizely-sdk'
+  s.add_development_dependency 'webmock', '~> 2.1'
+  s.add_runtime_dependency 'optimizely-sdk' , '~> 0.1.1'
   s.add_runtime_dependency 'activesupport', '~> 4.2', '>= 4.2.6'
 end
