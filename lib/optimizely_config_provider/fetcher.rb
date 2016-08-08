@@ -14,8 +14,10 @@ module OptimizelyConfigProvider
         Net::HTTP.get(URI(API_URL))
       end
 
+      # Parsed response which is fetched from the api.
       def parsed_response
-        JSON.parse(fetch, symbolize_names: true)
+        #JSON.parse(fetch, symbolize_names: true)
+        fetch
       end
 
     end
