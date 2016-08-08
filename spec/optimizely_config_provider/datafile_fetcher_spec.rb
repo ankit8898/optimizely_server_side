@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-RSpec.describe OptimizelyConfigProvider::Fetcher do
+RSpec.describe OptimizelyConfigProvider::DatafileFetcher do
 
   describe 'API url' do
 
     it 'has a rest endpoint to fetch config' do
-      expect(OptimizelyConfigProvider::Fetcher::API_URL).to eq('https://cdn.optimizely.com/json/5960232316.json')
+      expect(OptimizelyConfigProvider::DatafileFetcher::API_URL).to eq('https://cdn.optimizely.com/json/5960232316.json')
     end
 
   end
@@ -23,8 +23,8 @@ RSpec.describe OptimizelyConfigProvider::Fetcher do
     end
 
 
-    it 'should return parsed config response' do
-      expect(described_class.parsed_response).to eq({experiments: [{status: "running"}]})
+    it 'should return stringified datafile' do
+      expect(described_class.datafile).to eq('{"experiments": [{"status": "running"}]}')
     end
 
   end

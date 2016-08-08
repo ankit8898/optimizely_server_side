@@ -1,6 +1,6 @@
 module OptimizelyConfigProvider
 
-  class Fetcher
+  class DatafileFetcher
     # Responsible for fetching the optimizely sdk config from
     # the API source. The API can be optimizely cdn itself or
     # any other source.
@@ -13,12 +13,7 @@ module OptimizelyConfigProvider
       def fetch
         Net::HTTP.get(URI(API_URL))
       end
-
-      # Parsed response which is fetched from the api.
-      def parsed_response
-        #JSON.parse(fetch, symbolize_names: true)
-        fetch
-      end
+      alias_method :datafile, :fetch
 
     end
 

@@ -17,7 +17,15 @@ RSpec.describe OptimizelyConfigProvider::Cache do
     end
 
     it 'should return the config from API and cache it' do
-      expect(described_class.fetch).to eq({experiments: [{status: "running"}]})
+      expect(
+        described_class.fetch('key') do
+          JSON.parse(OptimizelyConfigProvider::DatafileFetcher.datafile, symbolize_names: true)
+        end
+      ).to eq(
+        {
+          experiments: [{status: "running"}]
+        }
+      )
     end
   end
 end

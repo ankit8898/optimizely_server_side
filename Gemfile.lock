@@ -3,7 +3,7 @@ PATH
   specs:
     optimizely_config_provider (0.0.1)
       activesupport (~> 4.2, >= 4.2.6)
-      optimizely-sdk
+      optimizely-sdk (~> 0.1.1)
 
 GEM
   remote: https://rubygems.org/
@@ -61,7 +61,7 @@ PLATFORMS
 DEPENDENCIES
   optimizely_config_provider!
   rspec (~> 3.5)
-  webmock
+  webmock (~> 2.1)
 
 BUNDLED WITH
    1.12.5
