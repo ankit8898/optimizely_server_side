@@ -2,15 +2,6 @@ require 'spec_helper'
 
 RSpec.describe OptimizelyConfigProvider::DatafileFetcher do
 
-  describe 'API url' do
-
-    it 'has a rest endpoint to fetch config' do
-      expect(OptimizelyConfigProvider::DatafileFetcher::API_URL).to eq('https://cdn.optimizely.com/json/5960232316.json')
-    end
-
-  end
-
-
   describe '#fetch' do
 
     before do
