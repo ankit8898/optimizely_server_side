@@ -9,6 +9,15 @@ RSpec.describe OptimizelyConfigProvider::Cache do
     end
   end
 
+
+  describe '#cache_store_instance' do
+
+    it 'should be a instance of Activesupport memory store' do
+      expect(described_class.instance.cache_store_instance).to be_kind_of(ActiveSupport::Cache::MemoryStore)
+    end
+
+  end
+
   describe '.fetch' do
 
     before do
