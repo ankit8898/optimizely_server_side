@@ -2,6 +2,7 @@
 
 [![Code Climate](https://codeclimate.com/github/ankit8898/optimizely_config_provider/badges/gpa.svg)](https://codeclimate.com/github/ankit8898/optimizely_config_provider) [![Build Status](https://travis-ci.org/ankit8898/optimizely_server_side.svg?branch=master)](https://travis-ci.org/ankit8898/optimizely_server_side)
 [![Gem Version](https://badge.fury.io/rb/optimizely_server_side.svg)](https://badge.fury.io/rb/optimizely_server_side)
+[![Test Coverage](https://codeclimate.com/github/ankit8898/optimizely_config_provider/badges/coverage.svg)](https://codeclimate.com/github/ankit8898/optimizely_config_provider/coverage)
 
 ### What is Optimizely Server Side ?
 
