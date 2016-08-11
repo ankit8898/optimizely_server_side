@@ -2,7 +2,11 @@ require 'bundler/setup'
 require 'webmock/rspec'
 Bundler.setup
 
+require "codeclimate-test-reporter"
+
 require 'optimizely_server_side'
+
+CodeClimate::TestReporter.start
 
 RSpec.configure do |config|
   # some (optional) config here
