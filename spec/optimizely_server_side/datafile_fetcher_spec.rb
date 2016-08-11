@@ -29,12 +29,12 @@ RSpec.describe OptimizelyServerSide::DatafileFetcher do
       end
 
       it 'should fetch the config' do
-        expect(described_class.fetch).to eq(BLANK)
+        expect(described_class.fetch).to eq('')
       end
 
 
       it 'should return stringified datafile' do
-        expect(described_class.datafile).to eq(BLANK)
+        expect(described_class.datafile).to eq('')
       end
 
     end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module OptimizelyServerSide
 
   class DatafileFetcher
@@ -10,7 +11,7 @@ module OptimizelyServerSide
       # Fetch the Config from the specified source.
       def fetch
         response = Net::HTTP.get_response(URI(OptimizelyServerSide.configuration.config_endpoint))
-        response.is_a?(Net::HTTPSuccess) ? response.body : BLANK
+        response.is_a?(Net::HTTPSuccess) ? response.body : ''
       end
       alias_method :datafile, :fetch
 
