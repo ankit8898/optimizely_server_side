@@ -8,8 +8,8 @@ module OptimizelyServerSide
     # Datafile
     def self.project_instance(options = {})
       Cache.fetch('optimizely_sdk_config'.freeze) do
-        puts "Getting the configg"
-        Optimizely::Project.new(DatafileFetcher.datafile, options[:event_dispather])
+        puts "Getting the config"
+        Optimizely::Project.new(DatafileFetcher.datafile, options[:event_dispatcher])
       end
     end
 

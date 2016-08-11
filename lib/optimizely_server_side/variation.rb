@@ -19,6 +19,7 @@ module OptimizelyServerSide
       @hsh[key] = yield
     end
 
+    # default experience
     def variation_default(key)
       @hsh[key] = yield
     end
