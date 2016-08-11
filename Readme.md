@@ -27,7 +27,7 @@ This gem solves few things:
 
 ### Architecture
 
-![alt text](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/general_architecture.svg
+![alt text](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/general_architecture.png
  "Architecture")
 
 ### Getting Started
