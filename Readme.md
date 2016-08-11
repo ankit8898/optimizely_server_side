@@ -24,6 +24,12 @@ This gem solves few things:
 
   Some more helpers exposed that can be exposed in views (.erbs) or PORO's.  It avoids duplication of few activation settings.
 
+
+### Architecture
+
+![alt text](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/general_architecture.svg
+ "Architecture")
+
 ### Getting Started
 
 Add the gem in you Gemfile
