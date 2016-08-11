@@ -9,7 +9,8 @@ module OptimizelyServerSide
 
       # Fetch the Config from the specified source.
       def fetch
-        Net::HTTP.get(URI(OptimizelyServerSide.configuration.config_endpoint))
+        response = Net::HTTP.get_response(URI(OptimizelyServerSide.configuration.config_endpoint))
+        response.is_a?(Net::HTTPSuccess) ? response.body : BLANK
       end
       alias_method :datafile, :fetch
 

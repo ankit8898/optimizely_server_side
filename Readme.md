@@ -14,16 +14,17 @@ This gem solves few things:
 
  - **Syncing AB test config across different servers when you don't want to fetch config via REST endpoint or redis/memcache store**
 
+  Yes, it's designed keeping performance in mind as we want to save a network overhead and a extra dependency.
+
   If you are using Optimizely you will be aware about the [datafile](http://developers.optimizely.com/server/reference/index.html#datafile). Once we make changes to the A/B test like change in percent distribution, start / pause a experiment this file get's updated.
 
-  If you have 50 servers with 40 passenger / puma process these process needs to be updated.  The Gem polls the config at regular interval and keeps the file cached across different process.
+  If you have 50 servers with 40 passenger / puma process these process needs to be updated.  The Gem polls the config at regular interval and keeps the datafile cached across different process.
 
-  The config is stored in **Memory Store** .
+  The config is stored in **Memory Store** . We use [Activesupport memory store](http://api.rubyonrails.org/classes/ActiveSupport/Cache/MemoryStore.html) for same.
 
 * **Some additional helpers**
 
   Some more helpers exposed that can be exposed in views (.erbs) or PORO's.  It avoids duplication of few activation settings.
-
 
 ### Architecture
 
@@ -32,7 +33,7 @@ This gem solves few things:
 
 ### Getting Started
 
-Add the gem in you Gemfile
+Add the gem in your Gemfile
 
 ```ruby
  gem 'optimizely_server_side'
@@ -79,7 +80,6 @@ class ApplicationController < ActionController::Base
 
 ```
 
-
 Now in your views or models
 
 
@@ -101,18 +101,17 @@ experiment(EXPERIMENT_KEY) do |config|
 end
 ```
 
-EXPERIMENT_KEY: The experiment key that you will be getting while setting up your experiment from https://app.optimizely.com.
+`EXPERIMENT_KEY`: The experiment key that you will be getting while setting up your experiment from https://app.optimizely.com.
 
-VARIATION_ONE_KEY: Key for Variation one. This will be also set when setting up experiment
+`VARIATION_ONE_KEY`: Key for Variation one. This will be also set when setting up experiment
 
-VARIATION_TWO_KEY: Key for Variation two. This will be also set when setting up experiment
+`VARIATION_TWO_KEY`: Key for Variation two. This will be also set when setting up experiment
 
-VARIATION_DEFAULT_KEY: Key for default experience. This will be also set when setting up experiment
+`VARIATION_DEFAULT_KEY`: Key for default experience. This will be also set when setting up experiment
 
 ![alt text](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/screenshot.png "Logo Title Text 1")
 
 ### Testing
-
 
 Gem uses rspec for unit testing
 
