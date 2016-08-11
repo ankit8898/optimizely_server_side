@@ -110,3 +110,21 @@ VARIATION_TWO_KEY: Key for Variation two. This will be also set when setting up 
 VARIATION_DEFAULT_KEY: Key for default experience. This will be also set when setting up experiment
 
 ![alt text](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/screenshot.png "Logo Title Text 1")
+
+### Testing
+
+
+Gem uses rspec for unit testing
+
+```ruby
+bundle exec rspec .
+```
+
+```
+Finished in 0.28287 seconds (files took 1.3 seconds to load)
+36 examples, 0 failures
+```
+
+### License
+
+The MIT License
