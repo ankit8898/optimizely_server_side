@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    optimizely_config_provider (0.0.1)
+    optimizely_server_side (0.0.1)
       activesupport (~> 4.2, >= 4.2.6)
       optimizely-sdk (~> 0.1.1)
 
@@ -59,7 +59,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  optimizely_config_provider!
+  optimizely_server_side!
   rspec (~> 3.5)
   webmock (~> 2.1)
 

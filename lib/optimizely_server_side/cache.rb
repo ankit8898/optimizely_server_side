@@ -1,4 +1,4 @@
-module OptimizelyConfigProvider
+module OptimizelyServerSide
 
   # Maintains the API config response in Memory store cache.
   # user Activesupport MemoryStore store.
@@ -11,7 +11,7 @@ module OptimizelyConfigProvider
     # We are sticking with Activesupprt memory store as gem is to be used with
     # Rails app for now.
     def initialize
-      @cache_store_instance = ActiveSupport::Cache::MemoryStore.new(expires_in: OptimizelyConfigProvider.configuration.cache_expiry.send(:minutes))
+      @cache_store_instance = ActiveSupport::Cache::MemoryStore.new(expires_in: OptimizelyServerSide.configuration.cache_expiry.send(:minutes))
     end
 
     class << self

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe OptimizelyConfigProvider::OptimizelySdk do
+RSpec.describe OptimizelyServerSide::OptimizelySdk do
 
   let(:valid_datafile) do
     '{

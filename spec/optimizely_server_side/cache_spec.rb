@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe OptimizelyConfigProvider::Cache do
+RSpec.describe OptimizelyServerSide::Cache do
 
   describe 'singleton' do
 
@@ -28,7 +28,7 @@ RSpec.describe OptimizelyConfigProvider::Cache do
     it 'should return the config from API and cache it' do
       expect(
         described_class.fetch('key') do
-          JSON.parse(OptimizelyConfigProvider::DatafileFetcher.datafile, symbolize_names: true)
+          JSON.parse(OptimizelyServerSide::DatafileFetcher.datafile, symbolize_names: true)
         end
       ).to eq(
         {

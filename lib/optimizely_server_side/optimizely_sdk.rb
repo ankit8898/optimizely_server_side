@@ -1,4 +1,4 @@
-module OptimizelyConfigProvider
+module OptimizelyServerSide
 
   class OptimizelySdk
 

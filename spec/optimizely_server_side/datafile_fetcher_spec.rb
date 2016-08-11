@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe OptimizelyConfigProvider::DatafileFetcher do
+RSpec.describe OptimizelyServerSide::DatafileFetcher do
 
   describe '#fetch' do
 

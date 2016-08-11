@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe OptimizelyConfigProvider::Configuration do
+RSpec.describe OptimizelyServerSide::Configuration do
 
-  subject { OptimizelyConfigProvider::Configuration.new }
+  subject { OptimizelyServerSide::Configuration.new }
 
   describe '#config_endpoint' do
 

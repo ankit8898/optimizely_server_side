@@ -1,4 +1,4 @@
-module OptimizelyConfigProvider
+module OptimizelyServerSide
 
   class DatafileFetcher
     # Responsible for fetching the optimizely sdk config from
@@ -9,7 +9,7 @@ module OptimizelyConfigProvider
 
       # Fetch the Config from the specified source.
       def fetch
-        Net::HTTP.get(URI(OptimizelyConfigProvider.configuration.config_endpoint))
+        Net::HTTP.get(URI(OptimizelyServerSide.configuration.config_endpoint))
       end
       alias_method :datafile, :fetch
 

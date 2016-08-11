@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-RSpec.describe OptimizelyConfigProvider::Support do
+RSpec.describe OptimizelyServerSide::Support do
 
   class FakeKlass
 
-    include OptimizelyConfigProvider::Support
+    include OptimizelyServerSide::Support
 
 
     def some_klass_method

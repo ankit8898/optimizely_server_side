@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe OptimizelyConfigProvider::Variation do
+RSpec.describe OptimizelyServerSide::Variation do
 
-  subject { OptimizelyConfigProvider::Variation.new(variation_key = 'variation_key_a') }
+  subject { OptimizelyServerSide::Variation.new(variation_key = 'variation_key_a') }
 
 
   describe '#compute' do
@@ -98,18 +98,18 @@ RSpec.describe OptimizelyConfigProvider::Variation do
         let(:proc) { Proc.new {|n| n*2 } }
         let(:html) do
           '<!DOCTYPE html>
-			<html>
-			<head>
-			<title>Page Title</title>
-			</head>
-			<body>
+      <html>
+      <head>
+      <title>Page Title</title>
+      </head>
+      <body>
 
-			<h1>This is a Heading</h1>
-			<p>This is a paragraph.</p>
+      <h1>This is a Heading</h1>
+      <p>This is a paragraph.</p>
 
-			</body>
-			</html>
-			'
+      </body>
+      </html>
+      '
         end
         let(:string) { 'Hello!'}
 

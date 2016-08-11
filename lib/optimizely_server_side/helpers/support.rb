@@ -1,4 +1,4 @@
-module OptimizelyConfigProvider
+module OptimizelyServerSide
 
   module Support
 
@@ -22,13 +22,13 @@ module OptimizelyConfigProvider
 
     def experiment(experiment_key, &blk)
       result_variation_key = optimizely_sdk_project_instance(experiment_key)
-      variation_instance   = OptimizelyConfigProvider::Variation.new(result_variation_key)
+      variation_instance   = OptimizelyServerSide::Variation.new(result_variation_key)
       blk.call(variation_instance)
       variation_instance.compute
     end
 
     def optimizely_sdk_project_instance(experiment_key)
-      OptimizelyConfigProvider::OptimizelySdk.project_instance(event_dispather: MyEventDispatcher.new).activate(experiment_key, OptimizelyConfigProvider.configuration.visitor_id)
+      OptimizelyServerSide::OptimizelySdk.project_instance(event_dispather: MyEventDispatcher.new).activate(experiment_key, OptimizelyServerSide.configuration.visitor_id)
     end
 
   end
