@@ -2,6 +2,8 @@ module OptimizelyConfigProvider
 
   class Variation
 
+    attr_reader :hsh
+
     def initialize(variation_key)
       @variation_key = variation_key
       @hsh = {}
