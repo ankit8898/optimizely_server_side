@@ -10,7 +10,7 @@ This is a wrapper on top of [Optimizely's](https://app.optimizely.com/projects) 
 
 This gem solves few things:
 
- - **Syncing AB test config across different servers when you don't want to fetch config via REST endpoint or redis/memcache store **
+ - **Syncing AB test config across different servers when you don't want to fetch config via REST endpoint or redis/memcache store**
 
   If you are using Optimizely you will be aware about the [datafile](http://developers.optimizely.com/server/reference/index.html#datafile). Once we make changes to the A/B test like change in percent distribution, start / pause a experiment this file get's updated.
 
@@ -70,3 +70,35 @@ class ApplicationController < ActionController::Base
   end
 
 ```
+
+
+Now in your views or models
+
+
+```ruby
+experiment(EXPERIMENT_KEY) do |config|
+
+  config.variation_one(VARIATION_ONE_KEY) do
+    # Code for experience one. it can be html or a ruby code
+  end
+
+  config.variation_two(VARIATION_TWO_KEY) do
+    # Code for experience two. it can be html or a ruby code
+  end
+
+  config.variation_default(VARIATION_DEFAULT_KEY) do
+    # Code for experience default. it can be html or a ruby code
+  end
+
+end
+```
+
+EXPERIMENT_KEY: The experiment key that you will be getting while setting up your experiment from https://app.optimizely.com.
+
+VARIATION_ONE_KEY: Key for Variation one. This will be also set when setting up experiment
+
+VARIATION_TWO_KEY: Key for Variation two. This will be also set when setting up experiment
+
+VARIATION_DEFAULT_KEY: Key for default experience. This will be also set when setting up experiment
+
+![alt text](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/screenshot.png "Logo Title Text 1")
