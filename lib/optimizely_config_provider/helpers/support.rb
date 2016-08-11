@@ -21,11 +21,15 @@ module OptimizelyConfigProvider
     # end
 
     def experiment(experiment_key, &blk)
+      result_variation_key = optimizely_sdk_project_instance(experiment_key)#OptimizelyConfigProvider::OptimizelySdk.project_instance(event_dispather: MyEventDispatcher.new).activate(experiment_key,user_id.sample)
+      variation_instance   = OptimizelyConfigProvider::Variation.new(result_variation_key)
+      blk.call(variation_instance)
+      variation_instance.compute
+    end
+
+    def optimizely_sdk_project_instance(experiment_key)
       user_id = ['12345','123456','12345678']
-      result_variation_key = OptimizelyConfigProvider::OptimizelySdk.project_instance(event_dispather: MyEventDispatcher.new).activate(experiment_key,user_id.sample)
-      instance = OptimizelyConfigProvider::Variation.new(result_variation_key)
-      blk.call(instance)
-      instance.compute
+      OptimizelyConfigProvider::OptimizelySdk.project_instance(event_dispather: MyEventDispatcher.new).activate(experiment_key, user_id.sample)
     end
 
   end
