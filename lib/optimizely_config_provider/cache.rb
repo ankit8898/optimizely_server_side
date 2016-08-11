@@ -19,11 +19,7 @@ module OptimizelyConfigProvider
       # fetch is a wrapper on top of Activesupport Fetch to set/get the
       # response via singleton instance
       def fetch(key)
-        # instance.cache_store_instance.fetch('optimizely_config'.freeze) do
-        #   Fetcher.parsed_response
-        # end
         instance.cache_store_instance.fetch(key) { yield }
-
       end
 
     end

@@ -6,7 +6,9 @@ require 'optimizely'
 require 'optimizely_config_provider/cache'
 require 'optimizely_config_provider/configuration'
 require 'optimizely_config_provider/datafile_fetcher'
+require 'optimizely_config_provider/variation'
 require 'optimizely_config_provider/optimizely_sdk'
+require 'optimizely_config_provider/helpers/support'
 
 module OptimizelyConfigProvider
 
