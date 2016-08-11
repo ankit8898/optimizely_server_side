@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
   s.name        = 'optimizely_server_side'
   s.version     = '0.0.1'
-  s.date        = '2010-04-28'
-  s.summary     = "Hola!"
-  s.description = "A simple hello world gem"
-  s.authors     = ["Nick Quaranto"]
+  s.date        = '2016-08-10'
+  s.summary     = "Optimizely server side. A wrapper on top of optimizely's ruby sdk for easy caching of server side config "
+  s.description = "Optimizely server side. A wrapper on top of optimizely's ruby sdk for easy caching of server side config and exposing few more utility helpers "
+  s.authors     = ["Ankit Gupta"]
   s.email       = 'ankit.gupta8898@gmail.com'
   s.files       = Dir['lib/*.rb']
   s.homepage    =
-    'http://rubygems.org/gems/optimizely_server_side'
+    'https://github.com/ankit8898/optimizely_server_side'
   s.license       = 'MIT'
   s.add_development_dependency 'rspec', '~> 3.5'
   s.add_development_dependency 'webmock', '~> 2.1'
