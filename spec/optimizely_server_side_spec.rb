@@ -55,21 +55,3 @@ RSpec.describe OptimizelyServerSide do
 
   end
 end
-
-def foo
-  experiment(EXPERIMENT_KEY) do |config|
-
-    config.variation_one(VARIATION_ONE_KEY) do
-      # Code for experience one. it can be html or a ruby code
-    end
-
-    config.variation_two(VARIATION_TWO_KEY) do
-      # Code for experience two. it can be html or a ruby code
-    end
-
-    config.variation_default(variation_default_KEY) do
-      # Code for experience default. it can be html or a ruby code
-    end
-
-  end
-end

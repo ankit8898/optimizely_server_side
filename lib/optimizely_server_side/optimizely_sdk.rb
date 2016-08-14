@@ -3,15 +3,24 @@ module OptimizelyServerSide
 
   class OptimizelySdk
 
-    # Public method to be accessed in the application
-    # This is the project instance and is giving
-    # access to all the optimizely sdk methods.
-    # Datafile
-    def self.project_instance(options = {})
-      Cache.fetch('optimizely_sdk_config') do
-        ap "*********** Getting the config ***********"
-        Optimizely::Project.new(DatafileFetcher.datafile, options[:event_dispatcher])
+    class << self
+
+      # Public method to be accessed in the application
+      # This is the project instance and is giving
+      # access to all the optimizely sdk methods.
+      # Datafile
+      def project_instance(options = {})
+        Optimizely::Project.new(cached_datafile,
+                                options[:event_dispatcher])
       end
+
+      def cached_datafile
+        Cache.fetch('optimizely_sdk_config') do
+          puts "*********** Getting the config ***********"
+          DatafileFetcher.datafile.content
+        end
+      end
+
     end
 
   end

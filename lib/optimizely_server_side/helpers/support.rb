@@ -21,16 +21,14 @@ module OptimizelyServerSide
     # end
 
     def experiment(experiment_key, &blk)
-      result_variation_key = optimizely_sdk_project_instance(experiment_key)
-      variation_instance   = OptimizelyServerSide::Variation.new(result_variation_key)
-      blk.call(variation_instance)
-      variation_instance.compute
+      variation_key = optimizely_sdk_project_instance(experiment_key)
+      OptimizelyServerSide::Experiment.new(variation_key).start(&blk)
     end
 
     def optimizely_sdk_project_instance(experiment_key)
       OptimizelyServerSide::OptimizelySdk
-        .project_instance(event_dispatcher: MyEventDispatcher.new)
-        .activate(experiment_key, OptimizelyServerSide.configuration.visitor_id)
+      .project_instance(event_dispatcher: MyEventDispatcher.new)
+      .activate(experiment_key, OptimizelyServerSide.configuration.visitor_id)
     end
 
   end

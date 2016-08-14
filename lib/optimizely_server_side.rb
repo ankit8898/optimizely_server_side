@@ -6,7 +6,7 @@ require 'optimizely'
 require 'optimizely_server_side/cache'
 require 'optimizely_server_side/configuration'
 require 'optimizely_server_side/datafile_fetcher'
-require 'optimizely_server_side/variation'
+require 'optimizely_server_side/experiment'
 require 'optimizely_server_side/optimizely_sdk'
 require 'optimizely_server_side/helpers/support'
 

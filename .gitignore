@@ -1,3 +1,4 @@
 .DS_Store
 optimizely_server_side-*.gem
 coverage
+blocky.rb

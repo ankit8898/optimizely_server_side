@@ -2,6 +2,12 @@ require 'spec_helper'
 
 RSpec.describe OptimizelyServerSide::Support do
 
+  class MyEventDispatcher
+
+    def dispatch_event(url,params)
+      puts "Do nothing with #{url} and #{params}"
+    end
+  end
   class FakeKlass
 
     include OptimizelyServerSide::Support
@@ -24,14 +30,44 @@ RSpec.describe OptimizelyServerSide::Support do
   end
 
 
-  context '#experiment' do
+  describe '#experiment' do
 
     subject { FakeKlass.new }
 
-    before do
-      allow(subject).to receive(:optimizely_sdk_project_instance).and_return('variation_one')
+    context 'everything is good' do
+
+
+      before do
+        allow(subject).to receive(:optimizely_sdk_project_instance).and_return('variation_one')
+      end
+
+      it { expect(subject.some_klass_method).to eq('Experience one')}
     end
 
-    it { expect(subject.some_klass_method).to eq('Experience one')}
+
+    context 'when a fatal error has happened' do
+
+      let(:response) do
+        '{
+            "experiments": [],
+            "version": "1",
+            "audiences": [],
+            "dimensions": [],
+            "groups": [],
+            "projectId": "5960232316",
+            "accountId": "5955320306",
+            "events": [],
+            "revision": "30"
+          }'
+      end
+
+      before do
+        stub_request(:get, "https://cdn.optimizely.com/json/5960232316.json")
+        .to_return(body: response, status: 500)
+      end
+
+
+      it { expect(subject.some_klass_method).to be_nil }
+    end
   end
 end
