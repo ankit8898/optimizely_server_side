@@ -152,7 +152,7 @@ RSpec.describe OptimizelyServerSide::Experiment do
       end
 
       it 'holds collection of variations' do
-        expect(subject.instance_variable_get(:@variations)).to have(1).items
+        expect(subject.instance_variable_get(:@variations).count).to eq(1)
       end
 
       it 'is a type of Variation' do
@@ -216,7 +216,7 @@ RSpec.describe OptimizelyServerSide::Experiment do
       end
 
       it 'has all variations' do
-        expect(subject.instance_variable_get(:@variations)).to have(3).items
+        expect(subject.instance_variable_get(:@variations).count).to eq(3)
       end
 
       it 'has all variations of class Variation' do

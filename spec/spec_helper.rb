@@ -3,7 +3,6 @@ CodeClimate::TestReporter.start
 
 require 'bundler/setup'
 require 'webmock/rspec'
-require 'rspec/collection_matchers'
 
 Bundler.setup
 
