@@ -2,10 +2,10 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'optimizely_server_side'
-  s.version     = '0.0.3'
-  s.date        = '2016-08-10'
+  s.version     = '0.0.4'
+  s.date        = '2016-08-13'
   s.summary     = "Optimizely server side. A wrapper on top of optimizely's ruby sdk for easy caching of server side config "
-  s.description = "Optimizely server side. A wrapper on top of optimizely's ruby sdk for easy caching of server side config and exposing few more utility helpers "
+  s.description = "Optimizely server side. A AB test wrapper on top of optimizely's ruby sdk for easy caching of server side config and exposing few more utility helpers.  Handling of fallbacks and marking primary experiments. "
   s.authors     = ["Ankit Gupta"]
   s.email       = 'ankit.gupta8898@gmail.com'
   s.files       = `git ls-files`.split("\n")
