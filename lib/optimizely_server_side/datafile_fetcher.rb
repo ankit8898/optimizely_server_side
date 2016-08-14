@@ -8,7 +8,7 @@ module OptimizelyServerSide
 
     attr_reader :content, :success
 
-    def initialize(content:, success:)
+    def initialize(content: nil, success: false)
       @content = content
       @success = success
     end
@@ -16,6 +16,7 @@ module OptimizelyServerSide
     class << self
 
       # Fetch the Config from the specified source.
+      # Incase of any error or exception we goto the fallback data
       def fetch
         begin
           response = call_optimizely_cdn

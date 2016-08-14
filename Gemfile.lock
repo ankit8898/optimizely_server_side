@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    optimizely_server_side (0.0.5)
+    optimizely_server_side (0.0.6)
       activesupport (~> 4.2, >= 4.2.6)
       optimizely-sdk (~> 0.1.1)
 
@@ -40,6 +40,8 @@ GEM
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
       rspec-mocks (~> 3.5.0)
+    rspec-collection_matchers (1.1.2)
+      rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.5.2)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -70,6 +72,7 @@ DEPENDENCIES
   codeclimate-test-reporter
   optimizely_server_side!
   rspec (~> 3.5)
+  rspec-collection_matchers (~> 1.1, >= 1.1.2)
   webmock (~> 2.1)
 
 BUNDLED WITH

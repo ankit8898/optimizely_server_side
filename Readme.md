@@ -12,19 +12,20 @@ This is a wrapper on top of [Optimizely's](https://app.optimizely.com/projects) 
 
 This gem solves few things:
 
- - **Syncing AB test config across different servers when you don't want to fetch config via REST endpoint or redis/memcache store**
+ - **Syncing A/B test config across different servers when you don't want to fetch config via REST endpoint or redis/memcache store**
 
   Yes, it's designed keeping performance in mind as we want to save a network overhead and a extra dependency.
 
   If you are using Optimizely you will be aware about the [datafile](http://developers.optimizely.com/server/reference/index.html#datafile). Once we make changes to the A/B test like change in percent distribution, start / pause a experiment this file get's updated.
 
-  If you have 50 servers with 40 passenger / puma process these process needs to be updated.  The Gem polls the config at regular interval and keeps the datafile cached across different process.
+  If you have 50 servers with 40 passenger / puma process each these process needs to be updated.  The Gem polls the config at regular interval and keeps the datafile cached across different process.
 
   The config is stored in **Memory Store** . We use [Activesupport memory store](http://api.rubyonrails.org/classes/ActiveSupport/Cache/MemoryStore.html) for same.
 
-* **Some additional helpers**
+* **Helper methods to better handle test and variations and handling fallbacks and experiment pause**
 
-  Some more helpers exposed that can be exposed in views (.erbs) or PORO's.  It avoids duplication of few activation settings.
+  Optimizely ruby sdk provides us way to know which variation to show. But what happens when the experiment is paused ? Or there is a error happening in config.  
+  More details about this in below section of experiment config.
 
 ### Architecture
 
@@ -58,12 +59,13 @@ end
 `PROJECT_ID` is a id of your  server side project at https://app.optimizely.com .
 
 
-Optimizely needs a visitor_id to track the unique user and server a constant experience.  
+Optimizely needs a `visitor_id` to track the unique user and server a constant experience.  
 
 In your Application controller
 
 ```ruby
 class ApplicationController < ActionController::Base
+
   include OptimizelyServerSide::Support
 
   before_action :set_visitor_id
@@ -80,34 +82,61 @@ class ApplicationController < ActionController::Base
 
 ```
 
-Now in your views or models
+### Example usage
 
+#### In your html.erb
 
 ```ruby
-experiment(EXPERIMENT_KEY) do |config|
+# in any app/view/foo.html.erb
+<% experiment(EXPERIMENT_KEY) do |config| %>
+  <% config.variation_one(VARIATION_ONE_KEY) do %>
+    <%= render partial: 'variation_one_experience'    
+  <% end %>
 
-  config.variation_one(VARIATION_ONE_KEY) do
-    # Code for experience one. it can be html or a ruby code
+  <% config.variation_default(VARIATION_DEFAULT_KEY, primary: true) do %>
+    <%= render partial: 'variation_default_experience'    
+  <% end %>
+<% end %>
+```
+
+#### In your model or any PORO
+
+```ruby
+class Foo
+
+  include OptimizelyServerSide::Support
+
+
+  # This method is responsible from getting data from
+  # any other rest endpoint.
+  # Suppose you are doing a AB test on a new endpoint / data source.
+  def get_me_some_data
+    data = experiment(EXPERIMENT_KEY) do |config|
+
+      config.variation_one(VARIATION_ONE_KEY) do
+        HTTParty.get('http://from_source_a.com/users')
+      end
+
+      config.variation_default(VARIATION_TWO_KEY, primary: true) do
+        HTTParty.get('http://from_source_b.com/users')
+      end
+    end
+
   end
-
-  config.variation_two(VARIATION_TWO_KEY) do
-    # Code for experience two. it can be html or a ruby code
-  end
-
-  config.variation_default(VARIATION_DEFAULT_KEY) do
-    # Code for experience default. it can be html or a ruby code
-  end
-
 end
 ```
 
-`EXPERIMENT_KEY`: The experiment key that you will be getting while setting up your experiment from https://app.optimizely.com.
+In the above examples:
 
-`VARIATION_ONE_KEY`: Key for Variation one. This will be also set when setting up experiment
+`EXPERIMENT_KEY`: When you will set your experiment this key will be set up that time at https://app.optimizely.com.
 
-`VARIATION_TWO_KEY`: Key for Variation two. This will be also set when setting up experiment
+`VARIATION_ONE_KEY`: Key for Variation one. This will be also set when setting up experiment.
+
+`VARIATION_TWO_KEY`: Key for Variation two. This will be also set when setting up experiment.
 
 `VARIATION_DEFAULT_KEY`: Key for default experience. This will be also set when setting up experiment
+
+`primary: true` : If you see above some variations are marked with `primary: true`. This enables handling the fallback capabilities of optimizely_server_side. If there is any error pulling datafile or experiment is paused the `primary` experience is served.  Not setting primary won't give any experience during fallback times.  We encourage setting it up.
 
 ![alt text](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/screenshot.png "Logo Title Text 1")
 
@@ -116,12 +145,12 @@ end
 Gem uses rspec for unit testing
 
 ```ruby
-bundle exec rspec .
-```
+$~/D/p/w/optimizely_server_side> rspec .
+......................................................
 
-```
-Finished in 0.28287 seconds (files took 1.3 seconds to load)
-36 examples, 0 failures
+Finished in 0.12234 seconds (files took 0.5512 seconds to load)
+54 examples, 0 failures
+
 ```
 
 ### License

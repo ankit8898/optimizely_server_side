@@ -14,12 +14,11 @@ module OptimizelyServerSide
     #     # Code related to variation two
     #   end
     #
-    #   config.variation_default('variation_default_key') do
+    #   config.variation_default('variation_default_key', primary: true) do
     #     # We still want to keep our default experience
     #   end
     #
     # end
-
     def experiment(experiment_key, &blk)
       variation_key = optimizely_sdk_project_instance(experiment_key)
       OptimizelyServerSide::Experiment.new(variation_key).start(&blk)

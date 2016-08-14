@@ -5,7 +5,7 @@ RSpec.describe OptimizelyServerSide::Experiment do
   subject { OptimizelyServerSide::Experiment.new(variation_key = 'variation_key_a') }
 
 
-  describe '#compute' do
+  describe '#applicable_variation' do
 
     before do
 
@@ -22,7 +22,7 @@ RSpec.describe OptimizelyServerSide::Experiment do
     context 'when variation_key is present' do
 
       it 'should result variation b' do
-        expect(subject.compute).to eq('experience a')
+        expect(subject.applicable_variation).to eq('experience a')
       end
 
     end
@@ -32,7 +32,7 @@ RSpec.describe OptimizelyServerSide::Experiment do
       subject { OptimizelyServerSide::Experiment.new(variation_key = '') }
 
       it 'should be nil' do
-        expect(subject.compute).to be_nil
+        expect(subject.applicable_variation).to be_nil
       end
     end
 
@@ -43,9 +43,26 @@ RSpec.describe OptimizelyServerSide::Experiment do
 
     let(:blk) { Proc.new { 'Hello!'} }
 
-    it 'returns a block passed' do
-      expect(subject.variation_one('foo', &blk)).to eq(blk)
+    before do
+      @variation_instance = subject.variation_one('foo', &blk)
     end
+
+    it 'returns a variation instance passed' do
+      expect(@variation_instance).to be_kind_of(OptimizelyServerSide::Variation)
+    end
+
+    it 'returns a key of foo' do
+      expect(@variation_instance.key).to eq('foo')
+    end
+
+    it 'returns a content with blk ' do
+      expect(@variation_instance.instance_variable_get(:@content)).to eq(blk)
+    end
+
+    it 'is not primary' do
+      expect(@variation_instance.primary).to be(false)
+    end
+
   end
 
 
@@ -53,8 +70,24 @@ RSpec.describe OptimizelyServerSide::Experiment do
 
     let(:blk) { -> {OpenStruct.new } }
 
-    it 'returns a block passed' do
-      expect(subject.variation_two('foo', &blk)).to eq(blk)
+    before do
+      @variation_instance = subject.variation_two('foo', &blk)
+    end
+
+    it 'returns a variation instance passed' do
+      expect(@variation_instance).to be_kind_of(OptimizelyServerSide::Variation)
+    end
+
+    it 'returns a key of foo' do
+      expect(@variation_instance.key).to eq('foo')
+    end
+
+    it 'returns a content with blk ' do
+      expect(@variation_instance.instance_variable_get(:@content)).to eq(blk)
+    end
+
+    it 'is not primary' do
+      expect(@variation_instance.primary).to be(false)
     end
   end
 
@@ -62,12 +95,53 @@ RSpec.describe OptimizelyServerSide::Experiment do
 
     let(:blk) { Proc.new { 'Hello!'} }
 
-    it 'returns a block passed' do
-      expect(subject.variation_three('foo', &blk)).to eq(blk)
+    before do
+      @variation_instance = subject.variation_three('foo', &blk)
+    end
+
+    it 'returns a variation instance passed' do
+      expect(@variation_instance).to be_kind_of(OptimizelyServerSide::Variation)
+    end
+
+    it 'returns a key of foo' do
+      expect(@variation_instance.key).to eq('foo')
+    end
+
+    it 'returns a content with blk ' do
+      expect(@variation_instance.instance_variable_get(:@content)).to eq(blk)
+    end
+
+    it 'is not primary' do
+      expect(@variation_instance.primary).to be(false)
     end
   end
 
-  describe '#store' do
+  describe '#variation_default' do
+
+    let(:blk) { -> {'<div><h1>Hello</h1></div>'} }
+
+    before do
+      @variation_instance = subject.variation_default('foo', primary: true, &blk)
+    end
+
+    it 'returns a variation instance passed' do
+      expect(@variation_instance).to be_kind_of(OptimizelyServerSide::Variation)
+    end
+
+    it 'returns a key of foo' do
+      expect(@variation_instance.key).to eq('foo')
+    end
+
+    it 'returns a content with blk ' do
+      expect(@variation_instance.instance_variable_get(:@content)).to eq(blk)
+    end
+
+    it 'is primary' do
+      expect(@variation_instance.primary).to be(true)
+    end
+  end
+
+  describe '#variations' do
 
     context 'key accepts regular strings' do
 
@@ -77,8 +151,16 @@ RSpec.describe OptimizelyServerSide::Experiment do
         subject.variation_one('foo', &string_lambda)
       end
 
-      it 'has value as string' do
-        expect(subject.instance_variable_get(:@store)).to eq({'foo' => string_lambda})
+      it 'holds collection of variations' do
+        expect(subject.instance_variable_get(:@variations)).to have(1).items
+      end
+
+      it 'is a type of Variation' do
+        expect(subject.instance_variable_get(:@variations)[0]).to be_kind_of(OptimizelyServerSide::Variation)
+      end
+
+      it 'is having the block content' do
+        expect(subject.instance_variable_get(:@variations)[0].call).to eq('I am a variation')
       end
 
     end
@@ -92,8 +174,12 @@ RSpec.describe OptimizelyServerSide::Experiment do
         subject.variation_one('foo', &some_method)
       end
 
-      it 'has value as proc' do
-        expect(subject.instance_variable_get(:@store)).to eq({'foo' => some_method})
+      it 'has content as proc' do
+        expect(subject.instance_variable_get(:@variations)[0].instance_variable_get(:@content)).to eq(some_method)
+      end
+
+      it 'has key' do
+        expect(subject.instance_variable_get(:@variations)[0].key).to eq('foo')
       end
 
     end
@@ -129,10 +215,72 @@ RSpec.describe OptimizelyServerSide::Experiment do
         subject.variation_three('foo_three', &string_blk)
       end
 
-      it 'has value as proc' do
-        expect(subject.instance_variable_get(:@store)).to eq({'foo' => some_method, 'foo_two' => some_html_block, 'foo_three' => string_blk})
+      it 'has all variations' do
+        expect(subject.instance_variable_get(:@variations)).to have(3).items
+      end
+
+      it 'has all variations of class Variation' do
+        expect(subject.instance_variable_get(:@variations)).to all(be_an(OptimizelyServerSide::Variation))
       end
 
     end
+  end
+
+
+  describe '#primary_variation' do
+
+    let(:some_method) { Proc.new {|n| n*2 } }
+
+    let(:some_html_block) do
+      -> { '<h1>Foo</h1>' }
+    end
+
+    let(:string_blk) { -> { 'Hello!'} }
+
+
+    context 'when nothing is marked as primary' do
+
+      before do
+        subject.variation_one('foo', &some_method)
+
+        subject.variation_two('foo_two', &some_html_block)
+
+        subject.variation_three('foo_three', &string_blk)
+      end
+
+      it { expect(subject.primary_variation).to be_nil }
+    end
+
+    context 'when one is marked as primary' do
+
+      before do
+        subject.variation_one('foo', &some_method)
+
+        subject.variation_two('foo_two',primary: true, &some_html_block)
+
+        subject.variation_three('foo_three', &string_blk)
+      end
+
+      it { expect(subject.primary_variation).not_to be_nil }
+
+      it { expect(subject.primary_variation.call).to eq('<h1>Foo</h1>') }
+    end
+
+
+    context 'when multiple are marked as primary' do
+
+      before do
+        subject.variation_one('foo', &some_method)
+
+        subject.variation_three('foo_two', primary: true, &some_html_block)
+
+        subject.variation_two('foo_three',primary: true, &string_blk)
+      end
+
+      it { expect(subject.primary_variation).not_to be_nil }
+
+      it { expect(subject.primary_variation.call).to eq('<h1>Foo</h1>') }
+    end
+
   end
 end
