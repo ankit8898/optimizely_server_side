@@ -140,6 +140,29 @@ In the above examples:
 
 ![alt text](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/screenshot.png "Logo Title Text 1")
 
+
+### Instrumentation
+
+This is a trial feature and may or maynot exist in future version.
+
+We have [ActiveSupport::Notifications](http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html) hooked up for few places which are worth monitoring.
+
+
+* When the datafile is fetched from cdn. In your application you can subscribe via below. This helps to monitor the time it takes from CDN fetch
+
+```ruby
+ActiveSupport::Notifications.subscribe "oss.call_optimizely_cdn" do |name, started, finished, unique_id, data|
+  Rails.logger.info "GET Datafile from Optimizely CDN in #{(finished - started) * 1000} ms"
+end
+```
+* Which variation is being served currently. In your application you can subscribe via below
+
+```ruby
+
+ActiveSupport::Notifications.subscribe "oss.variation" do |name, started, finished, unique_id, data|
+  Rails.logger.info "GET Variation from OSS in #{(finished - started) * 1000} ms with variation key #{data[:variation]}"
+end
+```
 ### Testing
 
 Gem uses rspec for unit testing
