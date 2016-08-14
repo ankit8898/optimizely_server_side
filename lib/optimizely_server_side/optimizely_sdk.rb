@@ -16,7 +16,6 @@ module OptimizelyServerSide
 
       def cached_datafile
         Cache.fetch('optimizely_sdk_config') do
-          puts "*********** Getting the config ***********"
           DatafileFetcher.datafile.content
         end
       end

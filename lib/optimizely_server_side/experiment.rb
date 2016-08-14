@@ -11,7 +11,6 @@ module OptimizelyServerSide
       self.compute
     end
 
-
     def variation_one(key, &blk)
       @store[key] = blk
     end
@@ -29,24 +28,12 @@ module OptimizelyServerSide
     end
 
     def compute
-      puts "---Experience selected----- #{@another_key}"
-      if @store[@another_key]
-        @store[@another_key].call
+      ActiveSupport::Notifications.instrument "variation.variation", variation: @another_key do
+        if @store[@another_key]
+          @store[@another_key].call
+        end
       end
     end
 
   end
 end
-#
-# a = Foo.new.start do |config|
-#
-#   config.game_one('aa') do
-#     '<div>       \n   </div>'
-#   end
-#
-#   config.game_two('bb') do
-#     '<div>       \n kjsdkaskfsajkfjk   </div>'
-#   end
-# end
-#
-# p a

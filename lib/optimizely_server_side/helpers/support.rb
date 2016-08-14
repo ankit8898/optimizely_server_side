@@ -28,7 +28,9 @@ module OptimizelyServerSide
     def optimizely_sdk_project_instance(experiment_key)
       OptimizelyServerSide::OptimizelySdk
       .project_instance(event_dispatcher: MyEventDispatcher.new)
-      .activate(experiment_key, OptimizelyServerSide.configuration.visitor_id)
+      .activate(experiment_key,
+                OptimizelyServerSide.configuration.visitor_id,
+                OptimizelyServerSide.configuration.logger)
     end
 
   end

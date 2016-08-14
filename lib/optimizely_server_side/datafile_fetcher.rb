@@ -19,11 +19,8 @@ module OptimizelyServerSide
       def fetch
         begin
           response = call_optimizely_cdn
-          if response.is_a?(Net::HTTPSuccess)
-            new(content: response.body, success: true)
-          else
-            fallback
-          end
+          return fallback unless response.is_a?(Net::HTTPSuccess)
+          new(content: response.body, success: true)
         rescue Exception => e
           fallback
         end
@@ -32,9 +29,11 @@ module OptimizelyServerSide
 
       # Gets data from Optimizely cdn
       def call_optimizely_cdn
-        Net::HTTP.get_response(
-          URI(OptimizelyServerSide.configuration.config_endpoint)
-        )
+        ActiveSupport::Notifications.instrument "oss.call_optimizely_cdn",this: :data  do
+          Net::HTTP.get_response(
+            URI(OptimizelyServerSide.configuration.config_endpoint)
+          )
+        end
       end
 
       def fallback
