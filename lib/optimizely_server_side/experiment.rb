@@ -12,15 +12,25 @@ module OptimizelyServerSide
       self.applicable_variation
     end
 
-    [
-      :variation_one,
-      :variation_two,
-      :variation_three,
-      :variation_default,
-    ].each do |variation|
-      define_method(variation) do |key, opts={}, &blk|  # def variation_one(key, opts = {}, &blk)
-        add_variation(key, opts, &blk)                  #   add_variation(key, opts, &blk)
-      end                                               # end
+    def variation_one(key, opts = {}, &blk)
+      add_variation(key, opts, &blk)
+    end
+
+    def variation_two(key, opts = {}, &blk)
+      add_variation(key, opts, &blk)
+    end
+
+    def variation_default(key, opts = {}, &blk)
+      add_variation(key, opts, &blk)
+    end
+
+    # Support for variation_three, variation_four till variation_n
+    def method_missing(key, *args, &blk)
+      if key.to_s.match('variation_')
+        add_variation(args[0], args[1] || {}, &blk)
+      else
+        super
+      end
     end
 
     # Selects and calls the variation which is applicable

@@ -29,7 +29,7 @@ This gem solves few things:
 
 ### Architecture
 
-![alt text](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/general_architecture.png
+![alt Architecture](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/general_architecture.png
  "Architecture")
 
 ### Getting Started
@@ -125,7 +125,24 @@ class Foo
   end
 end
 ```
+#### Don't want to stick with variation_one, variation_two ?
 
+You can call you own method names with `variation_` . Below i have `config.variation_best_experience` and `config.variation_pathetic_experience`.
+
+
+```ruby
+# in any app/view/foo.html.erb
+<% experiment(EXPERIMENT_KEY) do |config| %>
+  <% config.variation_best_experience(VARIATION_ONE_KEY) do %>
+    <%= render partial: 'variation_one_experience'    
+  <% end %>
+
+  <% config.variation_pathetic_experience(VARIATION_DEFAULT_KEY, primary: true) do %>
+    <%= render partial: 'variation_default_experience'    
+  <% end %>
+<% end %>
+
+```
 In the above examples:
 
 `EXPERIMENT_KEY`: When you will set your experiment this key will be set up that time at https://app.optimizely.com.
@@ -138,7 +155,7 @@ In the above examples:
 
 `primary: true` : If you see above some variations are marked with `primary: true`. This enables handling the fallback capabilities of optimizely_server_side. If there is any error pulling datafile or experiment is paused the `primary` experience is served.  Not setting primary won't give any experience during fallback times.  We encourage setting it up.
 
-![alt text](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/screenshot.png "Logo Title Text 1")
+![alt Optimizely dashboard](https://github.com/ankit8898/optimizely_server_side/blob/master/docs/screenshot.png "Optimizely dashboard")
 
 
 ### Instrumentation

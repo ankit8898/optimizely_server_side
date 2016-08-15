@@ -37,6 +37,31 @@ RSpec.describe OptimizelyServerSide::Experiment do
     end
 
 
+    context 'when the variation are named anything else' do
+
+      subject { OptimizelyServerSide::Experiment.new(variation_key = 'foobar') }
+
+      let(:some_method) { Proc.new {|n| n*2 } }
+
+      let(:some_html_block) do
+        -> { '<h1>Foo</h1>' }
+      end
+
+      let(:string_blk) { -> { 'Hello!'} }
+
+
+      before do
+        subject.variation_bottom_lead_form('foo', &some_method)
+
+        subject.variation_middle_lead_form('foo_two', primary: true, &some_html_block)
+
+        subject.variation_pathetic_form('foobar', &string_blk)
+      end
+
+      it { expect(subject.applicable_variation).to eq('Hello!') }
+    end
+
+
   end
 
   describe '#variation_one' do
@@ -122,6 +147,32 @@ RSpec.describe OptimizelyServerSide::Experiment do
 
     before do
       @variation_instance = subject.variation_default('foo', primary: true, &blk)
+    end
+
+    it 'returns a variation instance passed' do
+      expect(@variation_instance).to be_kind_of(OptimizelyServerSide::Variation)
+    end
+
+    it 'returns a key of foo' do
+      expect(@variation_instance.key).to eq('foo')
+    end
+
+    it 'returns a content with blk ' do
+      expect(@variation_instance.instance_variable_get(:@content)).to eq(blk)
+    end
+
+    it 'is primary' do
+      expect(@variation_instance.primary).to be(true)
+    end
+  end
+
+
+  describe '#variation_bottom_lead_form' do
+
+    let(:blk) { -> {'<div><h1>Hello</h1></div>'} }
+
+    before do
+      @variation_instance = subject.variation_bottom_lead_form('foo', primary: true, &blk)
     end
 
     it 'returns a variation instance passed' do
@@ -275,6 +326,22 @@ RSpec.describe OptimizelyServerSide::Experiment do
         subject.variation_three('foo_two', primary: true, &some_html_block)
 
         subject.variation_two('foo_three',primary: true, &string_blk)
+      end
+
+      it { expect(subject.primary_variation).not_to be_nil }
+
+      it { expect(subject.primary_variation.call).to eq('<h1>Foo</h1>') }
+    end
+
+
+    context 'when test are having own variation names' do
+
+      before do
+        subject.variation_bottom_lead_form('foo', &some_method)
+
+        subject.variation_middle_lead_form('foo_two', primary: true, &some_html_block)
+
+        subject.variation_pathetic_form('foo_three',&string_blk)
       end
 
       it { expect(subject.primary_variation).not_to be_nil }
