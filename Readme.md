@@ -89,13 +89,15 @@ class ApplicationController < ActionController::Base
 ```ruby
 # in any app/view/foo.html.erb
 <% experiment(EXPERIMENT_KEY) do |config| %>
+
   <% config.variation_one(VARIATION_ONE_KEY) do %>
-    <%= render partial: 'variation_one_experience'    
+    <%= render partial: 'variation_one_experience' %> 
   <% end %>
 
   <% config.variation_default(VARIATION_DEFAULT_KEY, primary: true) do %>
-    <%= render partial: 'variation_default_experience'    
+    <%= render partial: 'variation_default_experience' %>
   <% end %>
+  
 <% end %>
 ```
 
@@ -133,13 +135,15 @@ You can call you own method names with `variation_` . Below i have `config.varia
 ```ruby
 # in any app/view/foo.html.erb
 <% experiment(EXPERIMENT_KEY) do |config| %>
+
   <% config.variation_best_experience(VARIATION_ONE_KEY) do %>
-    <%= render partial: 'variation_one_experience'    
+    <%= render partial: 'variation_one_experience' %>
   <% end %>
 
   <% config.variation_pathetic_experience(VARIATION_DEFAULT_KEY, primary: true) do %>
-    <%= render partial: 'variation_default_experience'    
+    <%= render partial: 'variation_default_experience' %>
   <% end %>
+  
 <% end %>
 
 ```
