@@ -37,7 +37,7 @@ module OptimizelyServerSide
     # In case of running test the applicable variation key is present
     # In case of fallback / paused test we pick the primary variation
     def applicable_variation
-      ActiveSupport::Notifications.instrument "oss.variation", variation: @another_key do
+      ActiveSupport::Notifications.instrument "oss.variation", variation: @selected_variation_key do
         if @variations.any?(&variation_selector)
           @variations.find(&variation_selector).call
         else
