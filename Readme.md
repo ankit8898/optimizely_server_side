@@ -58,11 +58,11 @@ end
 
 ```
 
-Config info
+_Config info_
 
-`config_endpoint` - This is the Datafile endpoint which returns JSON config. `PROJECT_ID` is a id of your  server side project at https://app.optimizely.com .
-`cache_expiry` - Time we want to keep the config cached in memory.
-`event_dispatcher` - Optimizely needs to track every visit. You can pass your own event dispatcher from here. Read [more](https://developers.optimizely.com/server/reference/index#event-dispatcher)
+- `config_endpoint` - This is the Datafile endpoint which returns JSON config. `PROJECT_ID` is a id of your  server side project at https://app.optimizely.com .
+- `cache_expiry` - Time we want to keep the config cached in memory.
+- `event_dispatcher` - Optimizely needs to track every visit. You can pass your own event dispatcher from here. Read [more](https://developers.optimizely.com/server/reference/index#event-dispatcher)
 
 
 
