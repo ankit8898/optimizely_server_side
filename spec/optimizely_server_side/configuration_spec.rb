@@ -18,4 +18,13 @@ RSpec.describe OptimizelyServerSide::Configuration do
       expect(subject.visitor_id).to be_nil
     end
   end
+
+
+  describe '#event_dispatcher' do
+
+    it 'defaults to nil' do
+      expect(subject.visitor_id).to be_nil
+    end
+
+  end
 end

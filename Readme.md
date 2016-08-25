@@ -51,12 +51,20 @@ Add an initializer in `config/initializers/optimizely_server_side.rb`
 ```ruby
 #config/initializers/optimizely_server_side.rb
 OptimizelyServerSide.configure do |config|
-  config.config_endpoint = 'https://cdn.optimizely.com/json/PROJECT_ID.json'
-  config.cache_expiry    = 15 #(this is in minutes)
+  config.config_endpoint  = 'https://cdn.optimizely.com/json/PROJECT_ID.json'
+  config.cache_expiry     = 15 #(this is in minutes)
+  config.event_dispatcher = MyEventDispatcher.new
 end
 
 ```
-`PROJECT_ID` is a id of your  server side project at https://app.optimizely.com .
+
+Config info
+
+`config_endpoint` - This is the Datafile endpoint which returns JSON config. `PROJECT_ID` is a id of your  server side project at https://app.optimizely.com .
+`cache_expiry` - Time we want to keep the config cached in memory.
+`event_dispatcher` - Optimizely needs to track every visit. You can pass your own event dispatcher from here. Read [more](https://developers.optimizely.com/server/reference/index#event-dispatcher)
+
+
 
 
 Optimizely needs a `visitor_id` to track the unique user and server a constant experience.  
