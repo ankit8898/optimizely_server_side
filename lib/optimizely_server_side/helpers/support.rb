@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OptimizelyServerSide
 
   module Support
@@ -28,8 +30,8 @@ module OptimizelyServerSide
       OptimizelyServerSide::OptimizelySdk
       .project_instance(event_dispatcher: OptimizelyServerSide.configuration.event_dispatcher)
       .activate(experiment_key,
-                OptimizelyServerSide.configuration.user_attributes['visitor_id'.freeze],
-                OptimizelyServerSide.configuration.user_attributes)
+                OptimizelyServerSide.configuration.user_attributes['visitor_id'],
+                OptimizelyServerSide.configuration.user_attributes.reject { |k,v| k == 'visitor_id'})
     end
 
   end
