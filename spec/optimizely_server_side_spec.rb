@@ -23,8 +23,8 @@ RSpec.describe OptimizelyServerSide do
         expect(OptimizelyServerSide.configuration.cache_expiry).to eq(12)
       end
 
-      it 'has no visitor_id' do
-        expect(OptimizelyServerSide.configuration.visitor_id).to be_nil
+      it 'has empty user_attributes' do
+        expect(OptimizelyServerSide.configuration.user_attributes).to eq({})
       end
     end
 
@@ -41,7 +41,7 @@ RSpec.describe OptimizelyServerSide do
 
       it 'has config_endpoint' do
         OptimizelyServerSide.configure do |config|
-          config.visitor_id = '1234abcdef'
+          config.user_attributes = { visitor_id: '1234abcdef' }
         end
 
         expect(OptimizelyServerSide.configuration.config_endpoint).to eq('https://cdn.optimizely.com/json/5960232316.json')
@@ -51,8 +51,12 @@ RSpec.describe OptimizelyServerSide do
         expect(OptimizelyServerSide.configuration.cache_expiry).to eq(12)
       end
 
-      it 'has no visitor_id' do
-        expect(OptimizelyServerSide.configuration.visitor_id).to eq('1234abcdef')
+      it 'has user_attributes' do
+        expect(OptimizelyServerSide.configuration.user_attributes).to eq({visitor_id: '1234abcdef'})
+      end
+
+      it 'has a visitor_id' do
+        expect(OptimizelyServerSide.configuration.user_attributes[:visitor_id]).to eq('1234abcdef')
       end
 
       it 'has instance of event_dispatcher' do

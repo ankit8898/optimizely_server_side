@@ -28,8 +28,8 @@ module OptimizelyServerSide
       OptimizelyServerSide::OptimizelySdk
       .project_instance(event_dispatcher: OptimizelyServerSide.configuration.event_dispatcher)
       .activate(experiment_key,
-                OptimizelyServerSide.configuration.visitor_id,
-                OptimizelyServerSide.configuration.logger)
+                OptimizelyServerSide.configuration.user_attributes['visitor_id'.freeze],
+                OptimizelyServerSide.configuration.user_attributes)
     end
 
   end

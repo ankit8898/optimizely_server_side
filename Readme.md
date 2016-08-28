@@ -63,6 +63,11 @@ _Config info_
 - `config_endpoint` - This is the Datafile endpoint which returns JSON config. `PROJECT_ID` is a id of your  server side project at https://app.optimizely.com .
 - `cache_expiry` - Time we want to keep the config cached in memory.
 - `event_dispatcher` - Optimizely needs to track every visit. You can pass your own event dispatcher from here. Read [more](https://developers.optimizely.com/server/reference/index#event-dispatcher)
+- `user_attributes` - Everything related to user is passed from here. The must have key is `visitor_id`. In the same hash you can pass other other custom attributes. eq
+
+```
+config.user_attributes = {'visitor_id' => 1234, 'device_type' => 'iPhone'}
+```
 
 
 
@@ -84,7 +89,7 @@ class ApplicationController < ActionController::Base
     # This links the browser cookie for visitor_id to
     # OptimizelyServerSide
     OptimizelyServerSide.configure do |config|  
-        config.visitor_id = cookies[:visitor_id]
+        config.user_attributes = {'visitor_id' => cookies[:visitor_id]}
     end
   end
 
@@ -99,13 +104,13 @@ class ApplicationController < ActionController::Base
 <% experiment(EXPERIMENT_KEY) do |config| %>
 
   <% config.variation_one(VARIATION_ONE_KEY) do %>
-    <%= render partial: 'variation_one_experience' %> 
+    <%= render partial: 'variation_one_experience' %>
   <% end %>
 
   <% config.variation_default(VARIATION_DEFAULT_KEY, primary: true) do %>
     <%= render partial: 'variation_default_experience' %>
   <% end %>
-  
+
 <% end %>
 ```
 
@@ -151,7 +156,7 @@ You can call you own method names with `variation_` . Below i have `config.varia
   <% config.variation_pathetic_experience(VARIATION_DEFAULT_KEY, primary: true) do %>
     <%= render partial: 'variation_default_experience' %>
   <% end %>
-  
+
 <% end %>
 
 ```

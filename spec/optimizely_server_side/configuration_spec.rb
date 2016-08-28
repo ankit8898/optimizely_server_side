@@ -12,10 +12,10 @@ RSpec.describe OptimizelyServerSide::Configuration do
 
   end
 
-  describe '#visitor_id' do
+  describe '#user_attributes' do
 
-    it 'defaults to nil' do
-      expect(subject.visitor_id).to be_nil
+    it 'defaults to {}' do
+      expect(subject.user_attributes).to eq({})
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.describe OptimizelyServerSide::Configuration do
   describe '#event_dispatcher' do
 
     it 'defaults to nil' do
-      expect(subject.visitor_id).to be_nil
+      expect(subject.event_dispatcher).to be_nil
     end
 
   end
