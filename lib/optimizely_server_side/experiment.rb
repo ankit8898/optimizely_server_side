@@ -3,8 +3,9 @@
 module OptimizelyServerSide
   class Experiment
 
-    def initialize(key)
-      @selected_variation_key = key
+    def initialize(experiment_key, selected_variation_key)
+      @selected_variation_key = selected_variation_key
+      @experiment_key         = experiment_key
       @variations             = []
     end
 
@@ -39,7 +40,7 @@ module OptimizelyServerSide
     # In case of running test the applicable variation key is present
     # In case of fallback / paused test we pick the primary variation
     def applicable_variation
-      ActiveSupport::Notifications.instrument "oss.variation", variation: @selected_variation_key do
+      ActiveSupport::Notifications.instrument "oss.variation", variation: @selected_variation_key, experiment: @experiment_key, visitor_id: OptimizelyServerSide.configuration.user_attributes['visitor_id'] do
         if @variations.any?(&variation_selector)
           @variations.find(&variation_selector).call
         else

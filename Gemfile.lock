@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    optimizely_server_side (0.0.11)
+    optimizely_server_side (0.0.12)
       activesupport (~> 4.2, >= 4.2.6)
       optimizely-sdk (~> 0.1.1)
 

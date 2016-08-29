@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe OptimizelyServerSide::Experiment do
 
-  subject { OptimizelyServerSide::Experiment.new(variation_key = 'variation_key_a') }
+  subject { OptimizelyServerSide::Experiment.new('foo', variation_key = 'variation_key_a') }
 
 
   describe '#applicable_variation' do
@@ -29,7 +29,7 @@ RSpec.describe OptimizelyServerSide::Experiment do
 
 
     context 'when variation_key is not present' do
-      subject { OptimizelyServerSide::Experiment.new(variation_key = '') }
+      subject { OptimizelyServerSide::Experiment.new(experiment = 'foo', variation_key = '') }
 
       it 'should be nil' do
         expect(subject.applicable_variation).to be_nil
@@ -39,7 +39,7 @@ RSpec.describe OptimizelyServerSide::Experiment do
 
     context 'when the variation are named anything else' do
 
-      subject { OptimizelyServerSide::Experiment.new(variation_key = 'foobar') }
+      subject { OptimizelyServerSide::Experiment.new(experiment = 'foo', variation_key = 'foobar') }
 
       let(:some_method) { Proc.new {|n| n*2 } }
 
