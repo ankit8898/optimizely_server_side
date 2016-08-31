@@ -101,15 +101,15 @@ class ApplicationController < ActionController::Base
 
 ```ruby
 # in any app/view/foo.html.erb
-<% experiment(EXPERIMENT_KEY) do |config| %>
+<%= experiment(EXPERIMENT_KEY) do |exp| 
 
-  <% config.variation_one(VARIATION_ONE_KEY) do %>
-    <%= render partial: 'variation_one_experience' %>
-  <% end %>
+  exp.variation_one(VARIATION_ONE_KEY) do 
+    render partial: 'variation_one_experience'
+  end 
 
-  <% config.variation_default(VARIATION_DEFAULT_KEY, primary: true) do %>
-    <%= render partial: 'variation_default_experience' %>
-  <% end %>
+  exp.variation_default(VARIATION_DEFAULT_KEY, primary: true)
+    render partial: 'variation_default_experience'
+  end
 
 <% end %>
 ```
@@ -126,13 +126,13 @@ class Foo
   # any other rest endpoint.
   # Suppose you are doing a AB test on a new endpoint / data source.
   def get_me_some_data
-    data = experiment(EXPERIMENT_KEY) do |config|
+    data = experiment(EXPERIMENT_KEY) do |exp|
 
-      config.variation_one(VARIATION_ONE_KEY) do
+      exp.variation_one(VARIATION_ONE_KEY) do
         HTTParty.get('http://from_source_a.com/users')
       end
 
-      config.variation_default(VARIATION_TWO_KEY, primary: true) do
+      exp.variation_default(VARIATION_TWO_KEY, primary: true) do
         HTTParty.get('http://from_source_b.com/users')
       end
     end
@@ -147,15 +147,15 @@ You can call you own method names with `variation_` . Below i have `config.varia
 
 ```ruby
 # in any app/view/foo.html.erb
-<% experiment(EXPERIMENT_KEY) do |config| %>
+<%= experiment(EXPERIMENT_KEY) do |exp| 
 
-  <% config.variation_best_experience(VARIATION_ONE_KEY) do %>
-    <%= render partial: 'variation_one_experience' %>
-  <% end %>
+  config.variation_best_experience(VARIATION_ONE_KEY) do
+    render partial: 'variation_one_experience'
+  end 
 
-  <% config.variation_pathetic_experience(VARIATION_DEFAULT_KEY, primary: true) do %>
-    <%= render partial: 'variation_default_experience' %>
-  <% end %>
+  config.variation_pathetic_experience(VARIATION_DEFAULT_KEY, primary: true) do
+    render partial: 'variation_default_experience'
+  end 
 
 <% end %>
 
