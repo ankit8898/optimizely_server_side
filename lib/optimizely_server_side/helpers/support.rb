@@ -23,10 +23,11 @@ module OptimizelyServerSide
     # end
     def experiment(experiment_key, options = {}, &blk)
       # Merge any other options to user attributes
-      OptimizelyServerSide.configuration.user_attributes.merge!(options)
+      OptimizelyServerSide.configuration.user_attributes.merge!(options.stringify_keys)
       variation_key = optimizely_sdk_project_instance(experiment_key)
       OptimizelyServerSide::Experiment.new(experiment_key, variation_key).start(&blk)
     end
+    alias_method :feature_flip, :experiment
 
     def optimizely_sdk_project_instance(experiment_key)
       OptimizelyServerSide::OptimizelySdk

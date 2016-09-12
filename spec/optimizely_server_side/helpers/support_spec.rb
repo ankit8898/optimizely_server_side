@@ -43,6 +43,19 @@ RSpec.describe OptimizelyServerSide::Support do
 
       end
     end
+
+
+    def method_with_feature_flip
+
+      feature_flip('baz_experiment_key') do |config|
+
+        config.variation_one('variation_one') do
+          'Experience one'
+        end
+
+      end
+
+    end
   end
 
 
@@ -100,9 +113,25 @@ RSpec.describe OptimizelyServerSide::Support do
       end
 
       it 'hash no user attributes when not passed' do
-        expect(OptimizelyServerSide.configuration.user_attributes).to eq({state_code: 'ca', device_type: 'iPhone'})
+        expect(OptimizelyServerSide.configuration.user_attributes).to eq({'state_code' => 'ca', 'device_type' => 'iPhone'})
       end
 
     end
+  end
+
+  describe '#feature_flip' do
+
+    subject { FakeKlass.new }
+
+
+    context 'feature flip' do
+
+      before do
+        allow(subject).to receive(:optimizely_sdk_project_instance).and_return('variation_one')
+      end
+
+      it { expect(subject.method_with_feature_flip).to eq('Experience one')}
+    end
+
   end
 end
