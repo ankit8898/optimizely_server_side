@@ -1,3 +1,9 @@
+# 0.0.13
+
+- Adding support for adding additional attributes via experiments.
+- Adding a feature_flip method which is alias of experiment to distinguish between experiments and on/off feature.
+
+
 # 0.0.11
 
 Bug fix. Visitor id should not be passed in attributes.
