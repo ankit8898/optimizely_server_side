@@ -21,7 +21,9 @@ module OptimizelyServerSide
     #   end
     #
     # end
-    def experiment(experiment_key, &blk)
+    def experiment(experiment_key, options = {}, &blk)
+      # Merge any other options to user attributes
+      OptimizelyServerSide.configuration.user_attributes.merge!(options)
       variation_key = optimizely_sdk_project_instance(experiment_key)
       OptimizelyServerSide::Experiment.new(experiment_key, variation_key).start(&blk)
     end

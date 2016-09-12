@@ -8,12 +8,28 @@ RSpec.describe OptimizelyServerSide::Support do
       puts "Do nothing with #{url} and #{params}"
     end
   end
+
   class FakeKlass
 
     include OptimizelyServerSide::Support
 
+    def method_two_with_options
 
-    def some_klass_method
+      experiment('bar_experiment_key', state_code: 'ca', device_type: 'iPhone') do |config|
+
+        config.variation_one('variation_one') do
+          'Experience one'
+        end
+
+        config.variation_two('variation_two') do
+          'Experience two'
+        end
+
+      end
+
+    end
+
+    def method_one
 
       experiment('foo_experiment_key') do |config|
 
@@ -41,7 +57,7 @@ RSpec.describe OptimizelyServerSide::Support do
         allow(subject).to receive(:optimizely_sdk_project_instance).and_return('variation_one')
       end
 
-      it { expect(subject.some_klass_method).to eq('Experience one')}
+      it { expect(subject.method_one).to eq('Experience one')}
     end
 
 
@@ -67,7 +83,26 @@ RSpec.describe OptimizelyServerSide::Support do
       end
 
 
-      it { expect(subject.some_klass_method).to be_nil }
+      it { expect(subject.method_one).to be_nil }
+    end
+
+
+    context 'when a options hash is passed' do
+
+
+      before do
+        subject.method_two_with_options
+      end
+
+      # Reset to empty
+      after do
+        OptimizelyServerSide.configuration.user_attributes = {}
+      end
+
+      it 'hash no user attributes when not passed' do
+        expect(OptimizelyServerSide.configuration.user_attributes).to eq({state_code: 'ca', device_type: 'iPhone'})
+      end
+
     end
   end
 end
