@@ -1,3 +1,7 @@
+# 0.0.14
+
+Added a Omniture tag for tracking in erb
+
 # 0.0.13
 
 - Adding support for adding additional attributes via experiments.

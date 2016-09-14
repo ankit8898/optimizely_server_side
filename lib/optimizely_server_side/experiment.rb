@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/string/output_safety'
+
 module OptimizelyServerSide
   class Experiment
 
@@ -7,6 +9,13 @@ module OptimizelyServerSide
       @selected_variation_key = selected_variation_key
       @experiment_key         = experiment_key
       @variations             = []
+    end
+
+    # Hidden omniture tag for HTML tracking
+    def omniture_tag(evar: nil)
+      if @selected_variation_key
+        "<input type='hidden' data-optimizely=#{@experiment_key}:#{@selected_variation_key} data-optimizely-evar=#{evar}></input>".html_safe
+      end
     end
 
     # Starts the experiment

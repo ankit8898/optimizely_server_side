@@ -350,4 +350,26 @@ RSpec.describe OptimizelyServerSide::Experiment do
     end
 
   end
+
+
+  describe '#omniture_tag' do
+
+    context 'when experiment and selected variation is present' do
+
+      it 'should have omniture_tag' do
+        expect(subject.omniture_tag(evar: '11')).to eq("<input type='hidden' data-optimizely=foo:variation_key_a data-optimizely-evar=11></input>")
+      end
+
+    end
+
+    context 'when experiment is not having selected variation' do
+
+      subject { OptimizelyServerSide::Experiment.new('bar',nil) }
+
+      it 'should have omniture_tag' do
+        expect(subject.omniture_tag(evar: '11')).to be_nil
+      end
+
+    end
+  end
 end
