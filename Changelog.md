@@ -1,3 +1,10 @@
+# 0.0.15
+
+JSON schema validation was making things slow. We are turning it off permanently
+as the JSON is being downloaded from CDN
+
+The skip_json_validation property should only be used if the datafile is being pulled from the REST API or CDN.
+
 # 0.0.14
 
 Added a Omniture tag for tracking in erb

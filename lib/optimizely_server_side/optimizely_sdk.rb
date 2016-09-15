@@ -14,7 +14,7 @@ module OptimizelyServerSide
                                 options[:event_dispatcher],
                                 nil,
                                 nil,
-                                skip_json_validation = true
+                                true #skip_json_validation
                                 )
       end
 
