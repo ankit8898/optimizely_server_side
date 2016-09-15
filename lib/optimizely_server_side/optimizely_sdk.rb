@@ -11,7 +11,11 @@ module OptimizelyServerSide
       # Datafile
       def project_instance(options = {})
         Optimizely::Project.new(cached_datafile,
-                                options[:event_dispatcher])
+                                options[:event_dispatcher],
+                                nil,
+                                nil,
+                                skip_json_validation = true
+                                )
       end
 
       def cached_datafile
