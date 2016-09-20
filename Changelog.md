@@ -1,3 +1,7 @@
+# 0.0.16
+
+Updated the tracking tag.
+
 # 0.0.15
 
 JSON schema validation was making things slow. We are turning it off permanently
