@@ -357,7 +357,7 @@ RSpec.describe OptimizelyServerSide::Experiment do
     context 'when experiment and selected variation is present' do
 
       it 'should have omniture_tag' do
-        expect(subject.omniture_tag(evar: '11')).to eq("<input type='hidden' data-optimizely=foo:variation_key_a data-optimizely-evar=11></input>")
+        expect(subject.omniture_tag(evar: '11')).to eq("<input type=\"hidden\" name=\"ab_foo:variation_key_a\" id=\"ab_id_foo:variation_key_a\" value=\"\" data-optimizely=\"foo:variation_key_a\" data-optimizely-evar=\"11\"/>")
       end
 
     end

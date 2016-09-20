@@ -14,7 +14,10 @@ module OptimizelyServerSide
     # Hidden omniture tag for HTML tracking
     def omniture_tag(evar: nil)
       if @selected_variation_key
-        "<input type='hidden' data-optimizely=#{@experiment_key}:#{@selected_variation_key} data-optimizely-evar=#{evar}></input>".html_safe
+        #"<input type='hidden' data-optimizely=#{@experiment_key}:#{@selected_variation_key} data-optimizely-evar=#{evar}></input>".html_safe
+        #{}"<input type='hidden' data-optimizely=#{@experiment_key}:#{@selected_variation_key} data-optimizely-evar=#{evar}></input>".html_safe
+        key = "#{@experiment_key}:#{@selected_variation_key}"
+        %Q(<input type="hidden" name="ab_#{key}" id="ab_id_#{key}" value="" data-optimizely="#{key}" data-optimizely-evar="#{evar}"/>).html_safe
       end
     end
 
@@ -48,38 +51,38 @@ module OptimizelyServerSide
     # Selects and calls the variation which is applicable
     # In case of running test the applicable variation key is present
     # In case of fallback / paused test we pick the primary variation
-    def applicable_variation
-      ActiveSupport::Notifications.instrument "oss.variation", variation: @selected_variation_key, experiment: @experiment_key, visitor_id: OptimizelyServerSide.configuration.user_attributes['visitor_id'] do
-        if @variations.any?(&variation_selector)
-          @variations.find(&variation_selector).call
-        else
-          primary_variation.call if primary_variation
-        end
-      end
-    end
+           def applicable_variation
+             ActiveSupport::Notifications.instrument "oss.variation", variation: @selected_variation_key, experiment: @experiment_key, visitor_id: OptimizelyServerSide.configuration.user_attributes['visitor_id'] do
+               if @variations.any?(&variation_selector)
+                 @variations.find(&variation_selector).call
+               else
+                 primary_variation.call if primary_variation
+               end
+             end
+           end
 
-    # Primary variation is where primary: true
-    def primary_variation
-      @primary_variation ||= @variations.find(&:primary)
-    end
+           # Primary variation is where primary: true
+           def primary_variation
+             @primary_variation ||= @variations.find(&:primary)
+           end
 
-    private
+           private
 
-    # Scope to query on selected variation
-    def variation_selector
-      ->(variation) { variation.key == @selected_variation_key }
-    end
+           # Scope to query on selected variation
+           def variation_selector
+             ->(variation) { variation.key == @selected_variation_key }
+           end
 
-    # Add all the variation to the variations collection
-    def add_variation(key, opts = {}, &blk)
-      Variation.new(
-        key: key,
-        primary: opts[:primary] || false,
-        content: blk
-      ).tap do |variation_instance|
-        @variations << variation_instance
-      end
-    end
+           # Add all the variation to the variations collection
+           def add_variation(key, opts = {}, &blk)
+             Variation.new(
+               key: key,
+               primary: opts[:primary] || false,
+               content: blk
+             ).tap do |variation_instance|
+               @variations << variation_instance
+             end
+           end
 
-  end
-end
+           end
+           end
