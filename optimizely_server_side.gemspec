@@ -2,8 +2,8 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'optimizely_server_side'
-  s.version     = '0.0.18'
-  s.date        = '2016-10-27'
+  s.version     = '1.0.0'
+  s.date        = '2016-12-02'
   s.summary     = "Optimizely server side. A wrapper on top of optimizely's ruby sdk for easy caching of server side config "
   s.description = "Optimizely server side. A A/B test wrapper on top of optimizely's ruby sdk for easy caching of server side config and exposing few more utility helpers. Handling of fallbacks and marking primary experiments. "
   s.authors     = ["Ankit Gupta"]
@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   s.license       = 'MIT'
   s.add_development_dependency 'rspec', '~> 3.5'
   s.add_development_dependency 'webmock', '~> 2.1'
-  s.add_runtime_dependency 'optimizely-sdk' , '0.1.1'
+  s.add_runtime_dependency 'optimizely-sdk' , '1.0.1'
   s.add_runtime_dependency 'activesupport', '>= 4.2.6'
 end
