@@ -39,7 +39,7 @@ module OptimizelyServerSide
 
       def fallback
         new(
-          content: '{"experiments": [],"version": "1","audiences": [],"dimensions": [],"groups": [],"projectId": "5960232316","accountId": "5955320306","events": [],"revision": "30"}',
+          content: '{"experiments": [],"version": "2","audiences": [],"attributes": [],"groups": [],"projectId": "5960232316","accountId": "5955320306","events": [],"revision": "30"}',
           success: false
         )
 

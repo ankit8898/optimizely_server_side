@@ -29,12 +29,12 @@ RSpec.describe OptimizelyServerSide::DatafileFetcher do
       end
 
       it 'should fetch the config' do
-        expect(described_class.fetch.content).to eq('{"experiments": [],"version": "1","audiences": [],"dimensions": [],"groups": [],"projectId": "5960232316","accountId": "5955320306","events": [],"revision": "30"}')
+        expect(described_class.fetch.content).to eq('{"experiments": [],"version": "2","audiences": [],"attributes": [],"groups": [],"projectId": "5960232316","accountId": "5955320306","events": [],"revision": "30"}')
       end
 
 
       it 'should return stringified datafile' do
-        expect(described_class.datafile.content).to eq('{"experiments": [],"version": "1","audiences": [],"dimensions": [],"groups": [],"projectId": "5960232316","accountId": "5955320306","events": [],"revision": "30"}')
+        expect(described_class.datafile.content).to eq('{"experiments": [],"version": "2","audiences": [],"attributes": [],"groups": [],"projectId": "5960232316","accountId": "5955320306","events": [],"revision": "30"}')
       end
 
     end
