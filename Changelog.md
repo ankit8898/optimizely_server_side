@@ -1,3 +1,7 @@
+# 2.0.0
+
+Expose the feature flag APIs to run Feature Tests
+
 # 0.0.16
 
 Updated the tracking tag.
