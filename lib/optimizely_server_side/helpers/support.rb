@@ -46,7 +46,7 @@ module OptimizelyServerSide
     [:string, :boolean, :integer, :double].each do |type|
       define_method :"get_feature_variable_#{type}" do |experiment, variable_name |
         method = get_optimizely_instance.method("get_feature_variable_#{type}")
-        method.call(experiment, variable_name, visitor_id )
+        method.call(experiment, variable_name, visitor_id, user_attributes)
       end
     end
 
